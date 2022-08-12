@@ -95,6 +95,7 @@ static struct {
 	 * clock divider for SCLK_CPU_PLL, SCLK_HPM_CPU
 	 * PLL M, P, S
 	 */
+	APLL_FREQ(1700000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 262, 4, 0),
 	APLL_FREQ(1600000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 246, 4, 0),
 	APLL_FREQ(1500000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 230, 4, 0),
 	APLL_FREQ(1400000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 216, 4, 0),
@@ -112,6 +113,7 @@ static struct {
 };
 
 static unsigned int exynos_bus_table[] = {
+        825000, /* 1.7GHz */
 	825000, /* 1.6GHz */
 	825000, /* 1.5GHz */
 	825000, /* 1.4GHz */
@@ -442,8 +444,9 @@ static unsigned int exynos_verify_pm_qos_limit(int cluster, unsigned int freq)
 #endif
 
 	target_freq = max((unsigned int)pm_qos_request(pm_qos_class_min), freq);
+	/* it seems our overclocked 1.7 frequency won't pass in QoS lol
 	target_freq = min((unsigned int)pm_qos_request(pm_qos_class_max), target_freq);
-
+	*/
 #ifndef CONFIG_EXYNOS7580_QUAD
 	/* If cluster1 is turned on, first freq should be higher than cluster 0 */
 	if (sync_frequency && (cluster == CL_ONE)) {
@@ -914,7 +917,7 @@ static int exynos_cpufreq_init(struct cpufreq_policy *policy)
 	voltage_tolerance = exynos_get_voltage_tolerance(cpu_dev);
 	policy->cur = exynos_cpufreq_get(policy->cpu);
 	/* Later this code will be removed. This is for first lot */
-	policy->cpuinfo.min_freq = 400000;
+	policy->cpuinfo.min_freq = 300000;
 	freq_table[cur_cluster][13].frequency = CPUFREQ_ENTRY_INVALID;
 
 	if (samsung_rev() == EXYNOS7580_REV_0) {
@@ -923,12 +926,12 @@ static int exynos_cpufreq_init(struct cpufreq_policy *policy)
 		else
 			policy->cpuinfo.max_freq = 1400000;
 	} else if (soc_is_exynos7580_v1()) {
-		policy->cpuinfo.max_freq = 1500000;
-		freq_table[cur_cluster][0].frequency = CPUFREQ_ENTRY_INVALID;
+		policy->cpuinfo.max_freq = 1700000;
+//		freq_table[cur_cluster][0].frequency = CPUFREQ_ENTRY_INVALID;
 	}
 
 	if (soc_is_exynos7580_v1())
-		policy->cpuinfo.max_freq = 1500000;
+		policy->cpuinfo.max_freq = 1700000;
 
 	cpumask_copy(policy->cpus, topology_core_cpumask(policy->cpu));
 
