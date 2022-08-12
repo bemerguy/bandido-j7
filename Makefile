@@ -193,8 +193,6 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
 # Default value for CROSS_COMPILE is not to prefix executables
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 ARCH		?= arm64
-CROSS_COMPILE	?=../PLATFORM/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-
-#CROSS_COMPILE=/home/tien.tq1/toolchains/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
@@ -327,7 +325,7 @@ include $(srctree)/scripts/Kbuild.include
 
 AS		= $(CROSS_COMPILE)as
 LD		= $(CROSS_COMPILE)ld
-CC		= $(CROSS_COMPILE)gcc
+CC		= ccache $(CROSS_COMPILE)gcc
 CPP		= $(CC) -E
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
@@ -350,7 +348,7 @@ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
 CFLAGS_MODULE   =
 AFLAGS_MODULE   =
-LDFLAGS_MODULE  =
+LDFLAGS_MODULE  = --strip-debug
 CFLAGS_KERNEL	=
 AFLAGS_KERNEL	=
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
@@ -375,12 +373,12 @@ LINUXINCLUDE    := \
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
-KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+KBUILD_CFLAGS   := -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
 		   -fno-delete-null-pointer-checks \
-		   -fdiagnostics-show-option -Werror \
+		   -fdiagnostics-show-option \
 		   -std=gnu89
 
 KBUILD_AFLAGS_KERNEL :=
@@ -581,10 +579,21 @@ all: vmlinux
 
 KBUILD_CFLAGS  += $(call cc-disable-warning,maybe-uninitialized,)
 
+OPTS           = -ffast-math -fmodulo-sched -fmodulo-sched-allow-regmoves -fsingle-precision-constant -fvect-cost-model=cheap \
+                -fgcse-sm -fgcse-las -fipa-pta -ftree-lrs -ftree-lrs -fgcse-after-reload -fpeel-loops -fpredictive-commoning \
+                -freorder-blocks-algorithm=simple -fira-loop-pressure -fsplit-loops -foptimize-strlen -finline-functions \
+                -ftree-slp-vectorize -ftracer -funroll-loops -fsplit-paths -funswitch-loops \
+                --param=max-tail-merge-comparisons=20000 \
+                --param=max-tail-merge-iterations=20000 --param=max-cse-path-length=4000 --param=max-vartrack-size=0 \
+                --param=max-cse-insns=4000 --param=max-cselib-memory-locations=500000 --param=max-reload-search-insns=500000 \
+               --param=max-modulo-backtrack-attempts=500000 --param=max-hoist-depth=0 --param=max-pending-list-length=1000 \
+               --param=max-delay-slot-live-search=666 --param=inline-min-speedup=5 --param=early-inlining-insns=30 \
+               --param max-inline-insns-single=600 --param max-inline-insns-auto=40 --param=inline-unit-growth=150
+
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os
 else
-KBUILD_CFLAGS	+= -O2
+KBUILD_CFLAGS	+= -O2 -march=armv8-a -mtune=cortex-a53 ${OPTS}
 endif
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
