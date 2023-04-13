@@ -582,18 +582,18 @@ KBUILD_CFLAGS  += $(call cc-disable-warning,maybe-uninitialized,)
 OPTS           = -ffast-math -fmodulo-sched -fmodulo-sched-allow-regmoves -fsingle-precision-constant -fvect-cost-model=cheap \
                 -fgcse-sm -fgcse-las -fipa-pta -ftree-lrs -ftree-lrs -fgcse-after-reload -fpeel-loops -fpredictive-commoning \
                 -freorder-blocks-algorithm=simple -fira-loop-pressure -fsplit-loops -foptimize-strlen -finline-functions \
-                -ftree-slp-vectorize -ftracer -funroll-loops -fsplit-paths -funswitch-loops \
+                -ftree-slp-vectorize -ftracer -funroll-all-loops -fsplit-paths -funswitch-loops \
                 --param=max-tail-merge-comparisons=20000 \
                 --param=max-tail-merge-iterations=20000 --param=max-cse-path-length=4000 --param=max-vartrack-size=0 \
                 --param=max-cse-insns=4000 --param=max-cselib-memory-locations=500000 --param=max-reload-search-insns=500000 \
                --param=max-modulo-backtrack-attempts=500000 --param=max-hoist-depth=0 --param=max-pending-list-length=1000 \
-               --param=max-delay-slot-live-search=666 --param=inline-min-speedup=5 --param=early-inlining-insns=30 \
-               --param max-inline-insns-single=600 --param max-inline-insns-auto=40 --param=inline-unit-growth=150
+               --param=max-delay-slot-live-search=666
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os
 else
-KBUILD_CFLAGS	+= -O2 -march=armv8-a -mtune=cortex-a53 ${OPTS}
+KBUILD_CFLAGS	+= -O2
+# -march=armv8-a -mcpu=cortex-a53 -mtune=cortex-a53 ${OPTS}
 endif
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
