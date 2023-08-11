@@ -32,7 +32,7 @@ config ION_EXYNOS
 
 config ION_EXYNOS_STAT_LOG
 	bool "Gathering stats for Exynos ION"
-	default y
+	default n
 	select TRACING
 	depends on ION_EXYNOS
 	help
