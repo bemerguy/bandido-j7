@@ -348,7 +348,7 @@ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
 CFLAGS_MODULE   =
 AFLAGS_MODULE   =
-LDFLAGS_MODULE  = --strip-debug
+LDFLAGS_MODULE  =
 CFLAGS_KERNEL	=
 AFLAGS_KERNEL	=
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
@@ -379,7 +379,7 @@ KBUILD_CFLAGS   := -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -Wno-format-security \
 		   -fno-delete-null-pointer-checks \
 		   -fdiagnostics-show-option \
-		   -std=gnu89
+		   -std=gnu89 -pipe
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
@@ -579,21 +579,32 @@ all: vmlinux
 
 KBUILD_CFLAGS  += $(call cc-disable-warning,maybe-uninitialized,)
 
-OPTS           = -ffast-math -fmodulo-sched -fmodulo-sched-allow-regmoves -fsingle-precision-constant -fvect-cost-model=cheap \
-                -fgcse-sm -fgcse-las -fipa-pta -ftree-lrs -ftree-lrs -fgcse-after-reload -fpeel-loops -fpredictive-commoning \
-                -freorder-blocks-algorithm=simple -fira-loop-pressure -fsplit-loops -foptimize-strlen -finline-functions \
-                -ftree-slp-vectorize -ftracer -funroll-all-loops -fsplit-paths -funswitch-loops \
-                --param=max-tail-merge-comparisons=20000 \
-                --param=max-tail-merge-iterations=20000 --param=max-cse-path-length=4000 --param=max-vartrack-size=0 \
-                --param=max-cse-insns=4000 --param=max-cselib-memory-locations=500000 --param=max-reload-search-insns=500000 \
-               --param=max-modulo-backtrack-attempts=500000 --param=max-hoist-depth=0 --param=max-pending-list-length=1000 \
-               --param=max-delay-slot-live-search=666
+OPTS           = -fmodulo-sched -fmodulo-sched-allow-regmoves -funswitch-loops -fsplit-loops \
+                -fgcse-after-reload -fgcse-sm -fgcse-las -fipa-pta -ftree-lrs \
+                -fpeel-loops -fpredictive-commoning -freorder-blocks-algorithm=stc -fira-loop-pressure \
+                -fgraphite-identity -floop-interchange -floop-strip-mine -floop-block \
+                -ftree-loop-distribution -ftree-loop-vectorize -fira-hoist-pressure \
+                --param=max-tail-merge-comparisons=20000 --param=max-gcse-memory=2147483647 \
+                --param=max-tail-merge-iterations=200000 --param=max-cse-path-length=65536 --param=max-vartrack-size=0 \
+                --param=max-cse-insns=200000 --param=max-cselib-memory-locations=500000 --param=max-reload-search-insns=500000 \
+                --param=max-modulo-backtrack-attempts=500000 --param=max-hoist-depth=0 --param=max-pending-list-length=1000 \
+                --param=max-delay-slot-live-search=200000 --param=max-delay-slot-insn-search=200000 --param=inline-min-speedup=25 \
+                --param=l2-cache-size=512
+
+# -ffast-math -fmodulo-sched -fmodulo-sched-allow-regmoves -fsingle-precision-constant -fvect-cost-model=cheap \
+#                -fgcse-sm -fgcse-las -fipa-pta -ftree-lrs -ftree-lrs -fgcse-after-reload -fpeel-loops -fpredictive-commoning \
+#                -freorder-blocks-algorithm=simple -fira-loop-pressure -fsplit-loops -foptimize-strlen -finline-functions \
+#                -ftree-slp-vectorize -ftracer -funroll-all-loops -fsplit-paths -funswitch-loops \
+#                -falign-functions -falign-jumps -falign-labels -falign-loops --param=max-tail-merge-comparisons=20000 \
+#                --param=max-tail-merge-iterations=20000 --param=max-cse-path-length=4000 --param=max-vartrack-size=0 \
+#                --param=max-cse-insns=4000 --param=max-cselib-memory-locations=500000 --param=max-reload-search-insns=500000 \
+#               --param=max-modulo-backtrack-attempts=500000 --param=max-hoist-depth=0 --param=max-pending-list-length=1000 \
+#               --param=max-delay-slot-live-search=666
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os
 else
-KBUILD_CFLAGS	+= -O2
-# -march=armv8-a -mcpu=cortex-a53 -mtune=cortex-a53 ${OPTS}
+KBUILD_CFLAGS	+= -Os ${OPTS} -mcpu=cortex-a53 -mtune=cortex-a53
 endif
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
