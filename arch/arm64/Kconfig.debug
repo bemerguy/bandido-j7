@@ -4,7 +4,7 @@ source "lib/Kconfig.debug"
 
 config FRAME_POINTER
 	bool
-	default y
+	default n
 
 config DEBUG_STACK_USAGE
 	bool "Enable stack utilization instrumentation"
