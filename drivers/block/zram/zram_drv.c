@@ -38,7 +38,7 @@
 /* Globals */
 static int zram_major;
 static struct zram *zram_devices;
-static const char *default_compressor = "lzo";
+static const char *default_compressor = "lz4";
 
 /* Module params (documentation at end) */
 static unsigned int num_devices = 1;
@@ -836,7 +836,7 @@ static void zram_reset_device(struct zram *zram)
 	/* Reset stats */
 	memset(&zram->stats, 0, sizeof(zram->stats));
 	zram->disksize = 0;
-	zram->max_comp_streams = 1;
+	zram->max_comp_streams = 8;
 
 	set_capacity(zram->disk, 0);
 	part_stat_set_all(&zram->disk->part0, 0);
@@ -1057,7 +1057,7 @@ static DEVICE_ATTR_RO(orig_data_size);
 static DEVICE_ATTR_RO(mem_used_total);
 static DEVICE_ATTR_RW(mem_limit);
 static DEVICE_ATTR_RW(mem_used_max);
-static DEVICE_ATTR_RW(max_comp_streams);
+static DEVICE_ATTR_RO(max_comp_streams);
 static DEVICE_ATTR_RW(comp_algorithm);
 
 static ssize_t io_stat_show(struct device *dev,
@@ -1219,7 +1219,7 @@ static int create_device(struct zram *zram, int device_id)
 	}
 	strlcpy(zram->compressor, default_compressor, sizeof(zram->compressor));
 	zram->meta = NULL;
-	zram->max_comp_streams = 1;
+	zram->max_comp_streams = 8;
 	return 0;
 
 out_free_disk:
