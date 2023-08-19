@@ -161,13 +161,13 @@ static ssize_t read_ahead_kb_store(struct device *dev,
 	struct backing_dev_info *bdi = dev_get_drvdata(dev);
 	unsigned long read_ahead_kb;
 	ssize_t ret;
-
+#if 0
 	ret = kstrtoul(buf, 10, &read_ahead_kb);
 	if (ret < 0)
 		return ret;
 
 	bdi->ra_pages = read_ahead_kb >> (PAGE_SHIFT - 10);
-
+#endif
 	return count;
 }
 
