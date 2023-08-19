@@ -501,7 +501,7 @@
 				buck1_reg: BUCK1 {
 					regulator-name = "cpu-cluster.1";
 					regulator-min-microvolt = <600000>;
-					regulator-max-microvolt = <1400000>;
+					regulator-max-microvolt = <1500000>;
 					regulator-always-on;
 					regulator-boot-on;
 					regulator-ramp-delay = <12000>;
@@ -510,7 +510,7 @@
 				buck2_reg: BUCK2 {
 					regulator-name = "cpu-cluster.0";
 					regulator-min-microvolt = <600000>;
-					regulator-max-microvolt = <1400000>;
+					regulator-max-microvolt = <1500000>;
 					regulator-always-on;
 					regulator-boot-on;
 					regulator-ramp-delay = <12000>;
@@ -519,7 +519,7 @@
 				buck3_reg: BUCK3 {
 					regulator-name = "vdd_intmif";
 					regulator-min-microvolt = <600000>;
-					regulator-max-microvolt = <1400000>;
+					regulator-max-microvolt = <1500000>;
 					regulator-always-on;
 					regulator-boot-on;
 					regulator-ramp-delay = <12000>;
@@ -528,7 +528,7 @@
 				buck4_reg: BUCK4 {
 					regulator-name = "vdd_g3d";
 					regulator-min-microvolt = <600000>;
-					regulator-max-microvolt = <1400000>;
+					regulator-max-microvolt = <1500000>;
 					regulator-always-on;
 					regulator-boot-on;
 					regulator-ramp-delay = <12000>;
@@ -537,7 +537,7 @@
 				ldo1_reg: LDO1 {
 					regulator-name = "vdd_ldo1";
 					regulator-min-microvolt = <800000>;
-					regulator-max-microvolt = <1400000>;
+					regulator-max-microvolt = <1500000>;
 					regulator-always-on;
 					regulator-ramp-delay = <12000>;
 					regulator-initial-mode = <3>;
@@ -562,7 +562,7 @@
 				ldo4_reg: LDO4 {
 					regulator-name = "vdd_ldo4";
 					regulator-min-microvolt = <1200000>;
-					regulator-max-microvolt = <1400000>;
+					regulator-max-microvolt = <1500000>;
 					regulator-boot-on;
 					regulator-always-on;
 					regulator-ramp-delay = <12000>;
@@ -704,7 +704,7 @@
 				ldo36_reg: LDO36 {
 					regulator-name = "VDD_CAM_1P2";
 					regulator-min-microvolt = <1200000>;
-					regulator-max-microvolt = <1400000>;
+					regulator-max-microvolt = <1500000>;
 					regulator-initial-mode = <0>;
 				};
 				ldo37_reg: LDO37 {
