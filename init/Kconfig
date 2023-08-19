@@ -1513,7 +1513,7 @@ config DEBUG_PERF_USE_VMALLOC
 endmenu
 
 config VM_EVENT_COUNTERS
-	default y
+	default n
 	bool "Enable VM event counters for /proc/vmstat" if EXPERT
 	help
 	  VM event counters are needed for event counts to be shown.
@@ -1522,7 +1522,7 @@ config VM_EVENT_COUNTERS
 	  if VM event counters are disabled.
 
 config SLUB_DEBUG
-	default y
+	default n
 	bool "Enable SLUB debugging support" if EXPERT
 	depends on SLUB && SYSFS
 	help
