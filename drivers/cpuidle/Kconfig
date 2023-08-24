@@ -21,12 +21,10 @@ config CPU_IDLE_MULTIPLE_DRIVERS
 config CPU_IDLE_GOV_LADDER
 	bool
 	depends on CPU_IDLE
-	default y
 
 config CPU_IDLE_GOV_MENU
 	bool
 	depends on CPU_IDLE && NO_HZ
-	default y
 
 config ARCH_NEEDS_CPU_IDLE_COUPLED
 	def_bool n
