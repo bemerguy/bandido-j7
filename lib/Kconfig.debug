@@ -697,7 +697,6 @@ config DEBUG_LOCKING_API_SELFTESTS
 config STACKTRACE
 	bool "Stacktrace"
 	depends on STACKTRACE_SUPPORT
-	default y
 
 config DEBUG_STACK_USAGE
 	bool "Stack utilization instrumentation"
