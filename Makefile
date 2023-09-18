@@ -580,7 +580,7 @@ all: vmlinux
 KBUILD_CFLAGS  += $(call cc-disable-warning,maybe-uninitialized,)
 KBUILD_CFLAGS  += $(call cc-disable-warning, address-of-packed-member)
 
-OPTS           = -fmodulo-sched -fmodulo-sched-allow-regmoves -funswitch-loops -fsplit-loops \
+OPTS           = -ffast-math -funroll-loops -fmodulo-sched -fmodulo-sched-allow-regmoves -funswitch-loops -fsplit-loops \
                 -fgcse-after-reload -fgcse-sm -fgcse-las -fipa-pta -ftree-lrs \
                 -fpeel-loops -fpredictive-commoning -freorder-blocks-algorithm=stc -fira-loop-pressure \
                 -fgraphite-identity -floop-interchange -floop-strip-mine -floop-block \
