@@ -403,7 +403,7 @@ export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE CFLAGS_GCOV
 export KBUILD_AFLAGS AFLAGS_KERNEL AFLAGS_MODULE
 export KBUILD_AFLAGS_MODULE KBUILD_CFLAGS_MODULE KBUILD_LDFLAGS_MODULE
 export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
-export KBUILD_ARFLAGS
+export KBUILD_ARFLAGS BOPTS
 
 # When compiling out-of-tree modules, put MODVERDIR in the module
 # tree rather than in the kernel tree. The kernel tree might
@@ -585,18 +585,20 @@ OPTS           = -ffast-math -funroll-loops -fmodulo-sched -fmodulo-sched-allow-
                 -fpeel-loops -fpredictive-commoning -freorder-blocks-algorithm=stc -fira-loop-pressure \
                 -fgraphite-identity -floop-interchange -floop-strip-mine -floop-block \
                 -ftree-loop-distribution -ftree-loop-vectorize -fira-hoist-pressure \
-                -falign-functions -falign-jumps -falign-labels -falign-loops \
-                --param=max-tail-merge-comparisons=20000 --param=max-gcse-memory=2147483647 \
+                -falign-functions -falign-jumps -falign-labels -falign-loops
+
+PARAMS         = --param=max-tail-merge-comparisons=20000 --param=max-gcse-memory=2147483647 \
                 --param=max-tail-merge-iterations=200000 --param=max-cse-path-length=65536 --param=max-vartrack-size=0 \
                 --param=max-cse-insns=200000 --param=max-cselib-memory-locations=500000 --param=max-reload-search-insns=500000 \
                 --param=max-modulo-backtrack-attempts=500000 --param=max-hoist-depth=0 --param=max-pending-list-length=1000 \
                 --param=max-delay-slot-live-search=200000 --param=max-delay-slot-insn-search=200000 --param=inline-min-speedup=25 \
-                --param=l1-cache-line-size=64 --param=l1-cache-size=64 --param=l2-cache-size=512
+                --param=l1-cache-line-size=64 --param=l1-cache-size=384 --param=l2-cache-size=512
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os
 else
-KBUILD_CFLAGS	+= -Os ${OPTS} -mcpu=cortex-a53 -mtune=cortex-a53
+KBUILD_CFLAGS	+= -Os $(PARAMS) -falign-functions -falign-jumps -falign-labels -falign-loops -mcpu=cortex-a53 -mtune=cortex-a53
+BOPTS	+= -O3 $(OPTS)
 endif
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
