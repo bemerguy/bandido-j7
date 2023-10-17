@@ -75,11 +75,11 @@ static struct mutex gov_lock;
 
 /* Target load.  Lower values result in higher CPU speeds. */
 #define DEFAULT_TARGET_LOAD 90
-static unsigned int default_target_loads[] = { 75, 1200000, 85 };
+static unsigned int default_target_loads[] = { 70, 1200000, 90 };
 
-#define DEFAULT_TIMER_RATE (8 * USEC_PER_MSEC)
+#define DEFAULT_TIMER_RATE (10 * USEC_PER_MSEC)
 #define DEFAULT_ABOVE_HISPEED_DELAY DEFAULT_TIMER_RATE
-static unsigned int default_above_hispeed_delay[] = { 16000, 1200000, 8000 };
+static unsigned int default_above_hispeed_delay[] = { 10000, 1200000, 6000 };
 
 struct cpufreq_interactive_tunables {
 	int usage_count;
@@ -96,7 +96,7 @@ struct cpufreq_interactive_tunables {
 	 * The minimum amount of time to spend at a frequency before we can ramp
 	 * down.
 	 */
-#define DEFAULT_MIN_SAMPLE_TIME (16 * USEC_PER_MSEC)
+#define DEFAULT_MIN_SAMPLE_TIME (10 * USEC_PER_MSEC)
 	unsigned long min_sample_time;
 	/*
 	 * The sample rate of the timer used to increase frequency
@@ -119,7 +119,7 @@ struct cpufreq_interactive_tunables {
 	 * Max additional time to wait in idle, beyond timer_rate, at speeds
 	 * above minimum before wakeup to reduce speed, or -1 if unnecessary.
 	 */
-#define DEFAULT_TIMER_SLACK (4 * DEFAULT_TIMER_RATE)
+#define DEFAULT_TIMER_SLACK (8 * DEFAULT_TIMER_RATE)
 	int timer_slack_val;
 	bool io_is_busy;
 
@@ -1382,7 +1382,7 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 static
 #endif
 struct cpufreq_governor cpufreq_gov_interactive = {
-	.name = "interactive",
+	.name = "Bandido",
 	.governor = cpufreq_governor_interactive,
 	.max_transition_latency = 10000000,
 	.owner = THIS_MODULE,
