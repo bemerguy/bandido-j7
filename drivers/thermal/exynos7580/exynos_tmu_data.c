@@ -511,13 +511,13 @@ static const struct exynos_tmu_registers exynos7580_tmu_registers = {
 };
 
 #define EXYNOS7580_TMU_DATA \
-	.trigger_levels[0] = 76, \
-	.trigger_levels[1] = 81, \
-	.trigger_levels[2] = 86, \
-	.trigger_levels[3] = 91, \
-	.trigger_levels[4] = 96, \
-	.trigger_levels[5] = 101, \
-	.trigger_levels[6] = 106, \
+	.trigger_levels[0] = 92, \
+	.trigger_levels[1] = 95, \
+	.trigger_levels[2] = 97, \
+	.trigger_levels[3] = 100, \
+	.trigger_levels[4] = 103, \
+	.trigger_levels[5] = 106, \
+	.trigger_levels[6] = 111, \
 	.trigger_levels[7] = 115, \
 	.trigger_enable[0] = 1, \
 	.trigger_enable[1] = 1, \
@@ -548,32 +548,32 @@ static const struct exynos_tmu_registers exynos7580_tmu_registers = {
 	.second_point_trim = 85, \
 	.default_temp_offset = 25, \
 	.freq_tab[0] = { \
-		.freq_clip_max = 1600 * 1000, \
-		.temp_level = 76, \
+		.freq_clip_max = 2100 * 1000, \
+		.temp_level = 92, \
 	}, \
 	.freq_tab[1] = { \
-		.freq_clip_max = 1600 * 1000, \
-		.temp_level = 81, \
+		.freq_clip_max = 1800 * 1000, \
+		.temp_level = 95, \
 	}, \
 	.freq_tab[2] = { \
-		.freq_clip_max = 1400 * 1000, \
-		.temp_level = 86, \
+		.freq_clip_max = 1600 * 1000, \
+		.temp_level = 97, \
 	}, \
 	.freq_tab[3] = { \
 		.freq_clip_max = 1200 * 1000, \
-		.temp_level = 91, \
+		.temp_level = 100, \
 	}, \
 	.freq_tab[4] = { \
 		.freq_clip_max = 800 * 1000, \
-		.temp_level = 96, \
+		.temp_level = 103, \
 	}, \
 	.freq_tab[5] = { \
 		.freq_clip_max = 400 * 1000, \
-		.temp_level = 101, \
+		.temp_level = 106, \
 	}, \
 	.freq_tab[6] = { \
 		.freq_clip_max = 400 * 1000, \
-		.temp_level = 106, \
+		.temp_level = 111, \
 	}, \
 	.freq_tab_count = 7, \
 	.type = SOC_ARCH_EXYNOS7580, \
@@ -584,13 +584,13 @@ static const struct exynos_tmu_registers exynos7580_tmu_registers = {
 			TMU_SUPPORT_ADDRESS_MULTIPLE),
 
 #define EXYNOS7580_TMU_DATA_GPU \
-	.trigger_levels[0] = 76, \
-	.trigger_levels[1] = 81, \
-	.trigger_levels[2] = 86, \
-	.trigger_levels[3] = 91, \
-	.trigger_levels[4] = 96, \
-	.trigger_levels[5] = 101, \
-	.trigger_levels[6] = 106, \
+	.trigger_levels[0] = 92, \
+	.trigger_levels[1] = 95, \
+	.trigger_levels[2] = 97, \
+	.trigger_levels[3] = 100, \
+	.trigger_levels[4] = 103, \
+	.trigger_levels[5] = 106, \
+	.trigger_levels[6] = 111, \
 	.trigger_levels[7] = 115, \
 	.trigger_enable[0] = 1, \
 	.trigger_enable[1] = 1, \
@@ -622,31 +622,31 @@ static const struct exynos_tmu_registers exynos7580_tmu_registers = {
 	.default_temp_offset = 25, \
 	.freq_tab[0] = { \
 		.freq_clip_max = 800 * 1000, \
-		.temp_level = 76, \
+		.temp_level = 92, \
 	}, \
 	.freq_tab[1] = { \
-		.freq_clip_max = 800 * 1000, \
-		.temp_level = 81, \
+		.freq_clip_max = 734 * 1000, \
+		.temp_level = 95, \
 	}, \
 	.freq_tab[2] = { \
-		.freq_clip_max = 734 * 1000, \
-		.temp_level = 86, \
+		.freq_clip_max = 668 * 1000, \
+		.temp_level = 97, \
 	}, \
 	.freq_tab[3] = { \
-		.freq_clip_max = 668 * 1000, \
-		.temp_level = 91, \
+		.freq_clip_max = 440 * 1000, \
+		.temp_level = 100, \
 	}, \
 	.freq_tab[4] = { \
-		.freq_clip_max = 534 * 1000, \
-		.temp_level = 96, \
+		.freq_clip_max = 350 * 1000, \
+		.temp_level = 103, \
 	}, \
 	.freq_tab[5] = { \
-		.freq_clip_max = 350 * 1000, \
-		.temp_level = 101, \
+		.freq_clip_max = 160 * 1000, \
+		.temp_level = 106, \
 	}, \
 	.freq_tab[6] = { \
 		.freq_clip_max = 160 * 1000, \
-		.temp_level = 106, \
+		.temp_level = 111, \
 	}, \
 	.freq_tab_count = 7, \
 	.type = SOC_ARCH_EXYNOS7580, \
@@ -813,9 +813,9 @@ struct exynos_tmu_init_data const exynos7580_default_tmu_data = {
 
 struct exynos_tmu_init_data const exynos7580_default_tmu_data_v1 = {
 	.tmu_data = {
-		{ EXYNOS7580_TMU_DATA_V1 } ,
-		{ EXYNOS7580_TMU_DATA_V1 } ,
-		{ EXYNOS7580_TMU_DATA_GPU_V1 } ,
+		{ EXYNOS7580_TMU_DATA } ,
+		{ EXYNOS7580_TMU_DATA } ,
+		{ EXYNOS7580_TMU_DATA_GPU } ,
 	},
 	.tmu_count = 3,
 };

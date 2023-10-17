@@ -29,8 +29,8 @@
 #define MAX_COOLING_DEVICE 4
 #define MAX_THRESHOLD_LEVS 8
 
-#define ACTIVE_INTERVAL 300
-#define IDLE_INTERVAL 500
+#define ACTIVE_INTERVAL 100
+#define IDLE_INTERVAL 250
 #define MCELSIUS	1000
 
 /* CPU Zone information */
