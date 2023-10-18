@@ -28,9 +28,9 @@ static ssize_t write_pmsg(struct file *file, const char __user *buf,
 			  size_t count, loff_t *ppos)
 {
 	size_t i, buffer_size;
-#ifdef CONFIG_EXYNOS_SNAPSHOT_HOOK_LOGGER
+//#ifdef CONFIG_EXYNOS_SNAPSHOT_HOOK_LOGGER
 	char *buffer = pmsg_buffer;
-#endif
+//#endif
 	if (!count)
 		return 0;
 
