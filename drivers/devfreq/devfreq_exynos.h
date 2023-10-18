@@ -455,7 +455,7 @@ extern void exynos7_devfreq_init_thermal(void);
 /* The OPP table level (DREX_CLK 416MHz) */
 #define DLL_LOCK_LV	3
 /* MIF level to be set when system is going to be suspended (200MHz) */
-#define SUSPEND_LV	4
+#define SUSPEND_LV	7
 
 struct devfreq_data_mif {
 	struct device *dev;
