@@ -49,7 +49,7 @@
 #endif
 
 #define DIV_MASK_ALL		0xffffffff
-#define LIMIT_COLD_VOLTAGE	1350000
+#define LIMIT_COLD_VOLTAGE	1500000
 #define MIN_COLD_VOLTAGE	950000
 #define COLD_VOLT_OFFSET	37500
 
@@ -95,6 +95,10 @@ static struct {
 	 * clock divider for SCLK_CPU_PLL, SCLK_HPM_CPU
 	 * PLL M, P, S
 	 */
+	APLL_FREQ(2200000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 262, 4, 0),
+	APLL_FREQ(2100000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 262, 4, 0),
+	APLL_FREQ(1900000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 262, 4, 0),
+	APLL_FREQ(1800000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 262, 4, 0),
 	APLL_FREQ(1700000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 262, 4, 0),
 	APLL_FREQ(1600000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 246, 4, 0),
 	APLL_FREQ(1500000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 230, 4, 0),
@@ -113,7 +117,11 @@ static struct {
 };
 
 static unsigned int exynos_bus_table[] = {
-        825000, /* 1.7GHz */
+	825000, /* 2.2GHz */
+	825000, /* 2.1GHz */
+	825000, /* 1.9GHz */
+	825000, /* 1.8GHz */
+	825000, /* 1.7GHz */
 	825000, /* 1.6GHz */
 	825000, /* 1.5GHz */
 	825000, /* 1.4GHz */
@@ -126,8 +134,8 @@ static unsigned int exynos_bus_table[] = {
 	416000, /* 700MHz */
 	416000, /* 600MHz */
 	416000, /* 500MHz */
-	0,	/* 400MHz */
-	0,	/* 300MHz */
+	200000,	/* 400MHz */
+	200000,	/* 300MHz */
 };
 
 static unsigned int voltage_tolerance;	/* in percentage */
@@ -444,9 +452,8 @@ static unsigned int exynos_verify_pm_qos_limit(int cluster, unsigned int freq)
 #endif
 
 	target_freq = max((unsigned int)pm_qos_request(pm_qos_class_min), freq);
-	/* it seems our overclocked 1.7 frequency won't pass in QoS lol
 	target_freq = min((unsigned int)pm_qos_request(pm_qos_class_max), target_freq);
-	*/
+
 #ifndef CONFIG_EXYNOS7580_QUAD
 	/* If cluster1 is turned on, first freq should be higher than cluster 0 */
 	if (sync_frequency && (cluster == CL_ONE)) {
@@ -916,22 +923,13 @@ static int exynos_cpufreq_init(struct cpufreq_policy *policy)
 	policy->cpuinfo.transition_latency = exynos_get_transition_latency(cpu_dev);
 	voltage_tolerance = exynos_get_voltage_tolerance(cpu_dev);
 	policy->cur = exynos_cpufreq_get(policy->cpu);
-	/* Later this code will be removed. This is for first lot */
-	policy->cpuinfo.min_freq = 300000;
-	freq_table[cur_cluster][13].frequency = CPUFREQ_ENTRY_INVALID;
 
 	if (samsung_rev() == EXYNOS7580_REV_0) {
 		if (!support_full_frequency())
 			policy->cpuinfo.max_freq = 800000;
 		else
 			policy->cpuinfo.max_freq = 1400000;
-	} else if (soc_is_exynos7580_v1()) {
-		policy->cpuinfo.max_freq = 1700000;
-//		freq_table[cur_cluster][0].frequency = CPUFREQ_ENTRY_INVALID;
 	}
-
-	if (soc_is_exynos7580_v1())
-		policy->cpuinfo.max_freq = 1700000;
 
 	cpumask_copy(policy->cpus, topology_core_cpumask(policy->cpu));
 
@@ -1357,22 +1355,22 @@ static int exynos_smp_probe(struct platform_device *pdev)
 		return -ENODEV;
 
 	of_node_put(np);
-
+/*
 	if (soc_is_exynos7580_v1()) {
-		pm_qos_add_request(&pm_qos_mif, PM_QOS_BUS_THROUGHPUT, exynos_bus_table[ARRAY_SIZE(apll_freq) - 2]);
+		pm_qos_add_request(&pm_qos_mif, PM_QOS_BUS_THROUGHPUT, exynos_bus_table[ARRAY_SIZE(apll_freq) - 1]);
 		pm_qos_add_request(&cluster_qos_max[CL_ZERO], PM_QOS_CLUSTER0_FREQ_MAX, apll_freq[1].freq / 1000);
 #ifndef CONFIG_EXYNOS7580_QUAD
 		pm_qos_add_request(&cluster_qos_max[CL_ONE], PM_QOS_CLUSTER1_FREQ_MAX, apll_freq[1].freq / 1000);
 		maxlock_freq = apll_freq[1].freq / 1000;
 #endif
-	} else {
+	} else {*/
 		pm_qos_add_request(&pm_qos_mif, PM_QOS_BUS_THROUGHPUT, exynos_bus_table[ARRAY_SIZE(apll_freq) - 1]);
 		pm_qos_add_request(&cluster_qos_max[CL_ZERO], PM_QOS_CLUSTER0_FREQ_MAX, apll_freq[0].freq / 1000);
 #ifndef CONFIG_EXYNOS7580_QUAD
 		pm_qos_add_request(&cluster_qos_max[CL_ONE], PM_QOS_CLUSTER1_FREQ_MAX, apll_freq[0].freq / 1000);
 		maxlock_freq = apll_freq[0].freq / 1000;
 #endif
-	}
+	/*}*/
 
 	pm_qos_add_request(&cluster_qos_min[CL_ZERO], PM_QOS_CLUSTER0_FREQ_MIN, 0);
 #ifndef CONFIG_EXYNOS7580_QUAD

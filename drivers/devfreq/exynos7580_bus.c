@@ -460,7 +460,7 @@ void exynos7_int_notify_power_status(const char *pd_name, unsigned int turn_on)
 				ARRAY_SIZE(devfreq_int_opp_list),
 				data_int->devfreq->previous_freq);
 	if (cur_freq_idx < 0) {
-		pr_err("DEVFREQ(INT) : can't find target_idx to apply notify of power\n");
+		pr_err("DEVFREQ(INT) : can't find target_idx to apply notify of power %lu\n", data_int->devfreq->previous_freq);
 		goto out;
 	}
 

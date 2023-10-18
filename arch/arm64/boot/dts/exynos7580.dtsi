@@ -102,7 +102,7 @@
 			cpu-idle-states = <&CPU_SLEEP_0 &CPU_SLEEP_1 &CPU_SLEEP_2 &CPU_SLEEP_3>;
 			operating-points = <
 				/* khz    uv */
-				2400000  1500000
+				2200000  1500000
 				2100000  1500000
 				1900000  1390000
 				1800000  1340000
@@ -156,7 +156,7 @@
 			cpu-idle-states = <&CPU_SLEEP_0 &CPU_SLEEP_1 &CPU_SLEEP_2 &CPU_SLEEP_3>;
 			operating-points = <
 				/* khz    uv */
-				2400000  1500000
+				2200000  1500000
 				2100000  1500000
 				1900000  1390000
 				1800000  1340000
@@ -398,7 +398,7 @@
 
 		pm_qos_class    = <4>;
 		upthreshold     = <70>;
-		cal_qos_max     = <00 600000>;
+		cal_qos_max     = <00 400000>;
 		default_qos     = <00 100000>;
 		initial_freq    = <00 400000>;
 		polling_period  = <0>;
@@ -416,8 +416,8 @@
 
 		pm_qos_class    = <5>;
 		upthreshold     = <70>;
-		cal_qos_max     = <00 990000>;
-		default_qos     = <00 416000>;
+		cal_qos_max     = <00 825000>;
+		default_qos     = <00 200000>;
 		initial_freq    = <00 825000>;
 		polling_period  = <0>;
 	};
