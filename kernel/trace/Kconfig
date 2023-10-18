@@ -111,6 +111,7 @@ config TRACING
 	select BINARY_PRINTF
 	select EVENT_TRACING
 	select TRACE_CLOCK
+	default n
 
 config GENERIC_TRACER
 	bool
