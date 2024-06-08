@@ -456,7 +456,7 @@ config ARCH_NR_GPIO
 
 config HZ
 	int
-	default 250
+	default 100
 
 config ARCH_HAS_HOLES_MEMORYMODEL
 	def_bool y if SPARSEMEM
