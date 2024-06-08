@@ -36,15 +36,15 @@
 #include "devfreq_exynos.h"
 #include "governor.h"
 
-#define MIF_RESUME_FREQ (200000)
+#define MIF_RESUME_FREQ (416000)
 
 static struct devfreq_simple_exynos_data exynos7_devfreq_mif_governor_data = {
 	.pm_qos_class		= PM_QOS_BUS_THROUGHPUT,
 	.pm_qos_class_max	= PM_QOS_BUS_THROUGHPUT_MAX,
-	.urgentthreshold	= 90,
-	.upthreshold		= 80,
-	.downthreshold		= 30,
-	.idlethreshold		= 20,
+	.urgentthreshold	= 80,
+	.upthreshold		= 70,
+	.downthreshold		= 60,
+	.idlethreshold		= 50,
 	.cal_qos_max		= 825000,
 };
 
