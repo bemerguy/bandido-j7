@@ -1278,6 +1278,7 @@ enum devfreq_mif_idx {
 	MIF_LV5,
 	MIF_LV6,
 	MIF_LV7,
+	MIF_LV8,
 	MIF_LV_COUNT,
 };
 
@@ -1309,14 +1310,15 @@ struct devfreq_clk_list devfreq_mif_clk[MIF_CLK_COUNT] = {
 };
 
 struct devfreq_opp_table devfreq_mif_opp_list[] = {
-	{MIF_LV0, 825000, 1200000},
-	{MIF_LV1, 728000, 1200000},
-	{MIF_LV2, 667000, 1200000},
-	{MIF_LV3, 559000, 1200000},
-	{MIF_LV4, 416000, 1200000},
-	{MIF_LV5, 338000, 1200000},
-	{MIF_LV6, 273000, 1200000},
-	{MIF_LV7, 200000, 1200000},
+	{MIF_LV0, 925000, 1200000},
+	{MIF_LV1, 825000, 1200000},
+	{MIF_LV2, 728000, 1200000},
+	{MIF_LV3, 667000, 1200000},
+	{MIF_LV4, 559000, 1200000},
+	{MIF_LV5, 416000, 1200000},
+	{MIF_LV6, 338000, 1200000},
+	{MIF_LV7, 273000, 1200000},
+	{MIF_LV8, 200000, 1200000}
 };
 
 struct devfreq_clk_state aclk_mif_400_bus_pll[] = {
@@ -1356,14 +1358,15 @@ struct devfreq_clk_states aclk_mif_100_media_pll_list = {
 };
 
 struct devfreq_clk_info sclk_clk_phy[] = {
-	{MIF_LV0, 825 * MHZ, 0, NULL},
-	{MIF_LV1, 728 * MHZ, 0, NULL},
-	{MIF_LV2, 667 * MHZ, 0, NULL},
-	{MIF_LV3, 559 * MHZ, 0, NULL},
-	{MIF_LV4, 416 * MHZ, 0, NULL},
-	{MIF_LV5, 338 * MHZ, 0, NULL},
-	{MIF_LV6, 273 * MHZ, 0, NULL},
-	{MIF_LV7, 200 * MHZ, 0, NULL},
+	{MIF_LV0, 925 * MHZ, 0, NULL},
+	{MIF_LV1, 825 * MHZ, 0, NULL},
+	{MIF_LV2, 728 * MHZ, 0, NULL},
+	{MIF_LV3, 667 * MHZ, 0, NULL},
+	{MIF_LV4, 559 * MHZ, 0, NULL},
+	{MIF_LV5, 416 * MHZ, 0, NULL},
+	{MIF_LV6, 338 * MHZ, 0, NULL},
+	{MIF_LV7, 273 * MHZ, 0, NULL},
+	{MIF_LV8, 200 * MHZ, 0, NULL},
 };
 
 struct devfreq_clk_info aclk_mif_400[] = {

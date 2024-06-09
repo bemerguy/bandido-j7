@@ -45,7 +45,7 @@ static struct devfreq_simple_exynos_data exynos7_devfreq_mif_governor_data = {
 	.upthreshold		= 70,
 	.downthreshold		= 60,
 	.idlethreshold		= 50,
-	.cal_qos_max		= 825000,
+	.cal_qos_max		= 925000,
 };
 
 static struct exynos_devfreq_platdata exynos7_qos_mif;
