@@ -855,7 +855,7 @@
 		#define DVFS_CAM_L3 334000
 		#define DVFS_CAM_L4 267000
 		#define DVFS_CAM_L5 200000
-		#define DVFS_MIF_L0 825000
+		#define DVFS_MIF_L0 925000
 		#define DVFS_MIF_L1 728000
 		#define DVFS_MIF_L2 667000
 		#define DVFS_MIF_L3 559000
