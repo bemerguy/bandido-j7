@@ -15,7 +15,7 @@
 #include "exynos7580-j7elte_battery.dtsi"
 #include "exynos7580-j7elte_gpio_04.dtsi"
 / {
-	model = "Samsung J7ELTE revision 04 board based on EXYNOS7580";
+	model = "Samsung J7ELTE revision 00 board based on EXYNOS7580";
 	model_info-chip = <7580>;
 	model_info-platform = "android";
 	model_info-subtype = "samsung";
@@ -316,7 +316,7 @@
 	};
 	i2c@13830000 {
 		samsung,i2c-sda-delay = <100>;
-		samsung,i2c-max-bus-freq = <500000>;
+		samsung,i2c-max-bus-freq = <400000>;
 		status = "okay";
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -350,7 +350,7 @@
 	};
 	i2c@13860000 {
 		samsung,i2c-sda-delay = <100>;
-		samsung,i2c-max-bus-freq = <500000>;
+		samsung,i2c-max-bus-freq = <400000>;
 		status = "okay";
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -515,7 +515,7 @@
 				buck3_reg: BUCK3 {
 					regulator-name = "vdd_intmif";
 					regulator-min-microvolt = <600000>;
-					regulator-max-microvolt = <1500000>;
+					regulator-max-microvolt = <1200000>;
 					regulator-always-on;
 					regulator-boot-on;
 					regulator-ramp-delay = <12000>;
@@ -524,7 +524,7 @@
 				buck4_reg: BUCK4 {
 					regulator-name = "vdd_g3d";
 					regulator-min-microvolt = <600000>;
-					regulator-max-microvolt = <1500000>;
+					regulator-max-microvolt = <1300000>;
 					regulator-always-on;
 					regulator-boot-on;
 					regulator-ramp-delay = <12000>;
@@ -533,7 +533,7 @@
 				ldo1_reg: LDO1 {
 					regulator-name = "vdd_ldo1";
 					regulator-min-microvolt = <800000>;
-					regulator-max-microvolt = <1500000>;
+					regulator-max-microvolt = <1200000>;
 					regulator-always-on;
 					regulator-ramp-delay = <12000>;
 					regulator-initial-mode = <3>;
@@ -558,7 +558,7 @@
 				ldo4_reg: LDO4 {
 					regulator-name = "vdd_ldo4";
 					regulator-min-microvolt = <1200000>;
-					regulator-max-microvolt = <1500000>;
+					regulator-max-microvolt = <1200000>;
 					regulator-boot-on;
 					regulator-always-on;
 					regulator-ramp-delay = <12000>;
@@ -700,7 +700,7 @@
 				ldo36_reg: LDO36 {
 					regulator-name = "VDD_CAM_1P2";
 					regulator-min-microvolt = <1200000>;
-					regulator-max-microvolt = <1500000>;
+					regulator-max-microvolt = <1200000>;
 					regulator-initial-mode = <0>;
 				};
 				ldo37_reg: LDO37 {
@@ -841,7 +841,7 @@
 			companion = <0>;	/* 0 : N , 1 : Y  */
 			ois = <0>;				/* 0 : N , 1 : Y  */
 		};
-		#define DVFS_INT_L0 500000
+		#define DVFS_INT_L0 400000
 		#define DVFS_INT_L1 334000
 		#define DVFS_INT_L2 267000
 		#define DVFS_INT_L3 200000
@@ -855,7 +855,7 @@
 		#define DVFS_CAM_L3 334000
 		#define DVFS_CAM_L4 267000
 		#define DVFS_CAM_L5 200000
-		#define DVFS_MIF_L0 925000
+		#define DVFS_MIF_L0 825000
 		#define DVFS_MIF_L1 728000
 		#define DVFS_MIF_L2 667000
 		#define DVFS_MIF_L3 559000
