@@ -57,7 +57,7 @@ static gpu_dvfs_info gpu_dvfs_table_default[] = {
 static int mif_min_table[] = {
 	200000, 273000, 228000,
 	416000, 559000, 667000,
-        728000, 741000, 825000,
+	728000, 741000, 825000,
 };
 
 static gpu_attribute gpu_config_attributes[] = {

@@ -1,6 +1,5 @@
 #!/bin/bash
-export CROSS_COMPILE=/root/arm-gnu-toolchain-12.2.rel1-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-
-export CROSS_COMPILE=/home/me/x-tools/aarch64-linux-gnu/bin/aarch64-linux-gnu-
+export CROSS_COMPILE=/home/me/x-tools/14.1/bin/aarch64-linux-gnu-
 export ARCH=arm64
 
 DATE_START=$(date +"%s")

@@ -579,35 +579,39 @@ all: vmlinux
 
 KBUILD_CFLAGS  += $(call cc-disable-warning,maybe-uninitialized,)
 KBUILD_CFLAGS  += $(call cc-disable-warning, address-of-packed-member)
-OFFLAGS         = -Os -ffast-math -fsingle-precision-constant -fira-hoist-pressure -fgcse-after-reload\
+OFLAGS          = -Os -ffast-math -fsingle-precision-constant -fira-hoist-pressure -fgcse-after-reload\
                 -fgcse-las -fgcse-sm -fmodulo-sched -fmodulo-sched-allow-regmoves\
                 -fipa-pta -ftree-lrs -freorder-blocks-algorithm=stc -fira-loop-pressure\
                 -floop-interchange -ftree-loop-linear -floop-strip-mine -floop-block\
-                -floop-nest-optimize -fira-hoist-pressure -funroll-all-loops\
-		-falign-functions -falign-jumps -falign-labels -falign-loops
+                -floop-nest-optimize -fira-hoist-pressure\
+                -falign-functions=16 -falign-jumps=16 -falign-labels=16 -falign-loops=16
 
-BOPTS           = -Ofast -fgraphite -fgraphite-identity -ftree-vectorize -floop-parallelize-all -floop-unroll-and-jam\
-                --param=inline-min-speedup=20 --param=large-stack-frame-growth=400 --param=large-function-growth=50
+#BOPTS           = -Ofast -fgraphite -fgraphite-identity -funroll-all-loops -fsched-spec-load\
+#                -fselective-scheduling2
+
+BOPTS		= -funroll-all-loops --param=inline-min-speedup=20 --param=large-stack-frame-growth=1000\
+		--param=large-function-growth=500
 
 PARAMS         = --param=max-tail-merge-comparisons=20000 --param=max-gcse-memory=2147483647 \
                 --param=max-tail-merge-iterations=200000 --param=max-cse-path-length=65536 --param=max-vartrack-size=0 \
                 --param=max-cse-insns=200000 --param=max-cselib-memory-locations=500000 --param=max-reload-search-insns=500000 \
                 --param=max-modulo-backtrack-attempts=500000 --param=max-hoist-depth=0 --param=max-pending-list-length=1000 \
-                --param=max-delay-slot-live-search=200000 --param=max-delay-slot-insn-search=200000 --param=inline-min-speedup=25 \
+                --param=max-delay-slot-live-search=200000 --param=max-delay-slot-insn-search=200000\
                 --param=l1-cache-line-size=64 --param=l1-cache-size=256 --param=l2-cache-size=1536
 
-GCCPARAMS += --param=early-inlining-insns=15 #10 compiling
-GCCPARAMS += --param=large-function-growth=20 #100%. % to grow large functions? compiling. matters too much
-GCCPARAMS += --param=large-stack-frame-growth=300 #1000% compiling
-GCCPARAMS += --param=max-inline-insns-small=20 #insns to be considered small thus automatically inlining
-GCCPARAMS += --param=max-inline-insns-size=6 #max insns to inline when optimized for size
-GCCPARAMS += --param=max-inline-insns-auto=90 #max insns to even consider for inlining at O3/fast 15
+GCCPARAMS += --param=early-inlining-insns=10 #10 compiling
+GCCPARAMS += --param=large-function-growth=50 #100%. % to grow large functions? compiling. matters too much
+GCCPARAMS += --param=large-stack-frame-growth=400 #1000% compiling
+GCCPARAMS += --param=max-inline-insns-small=12 #insns to be considered small thus automatically inlining
+GCCPARAMS += --param=max-inline-insns-size=8 #max insns to inline when optimized for size
+GCCPARAMS += --param=max-inline-insns-auto=30 #max insns to even consider for inlining at O3/fast 15
 GCCPARAMS += --param=max-inline-insns-single=200 #but when the code explicity says to inline 70
-GCCPARAMS += --param=inline-min-speedup=40 #ignore the two above if this % of speedup is calculated 30
+GCCPARAMS += --param=inline-min-speedup=30 #ignore the two above if this % of speedup is calculated 30
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os
 else
-KBUILD_CFLAGS	+= -Os $(OFFLAGS) -mcpu=cortex-a53 $(PARAMS) $(GCCPARAMS)
+CPUFLAGS = -mcpu=cortex-a53+crypto
+KBUILD_CFLAGS	+= $(OFLAGS) $(CPUFLAGS) $(PARAMS) $(GCCPARAMS)
 endif
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
