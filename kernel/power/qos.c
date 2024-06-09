@@ -554,6 +554,8 @@ void pm_qos_add_request_trace(char *func, unsigned int line,
 			struct pm_qos_request *req,
 			int pm_qos_class, s32 value)
 {
+	return;
+
 	if (!req) /*guard against callers passing in null */
 		return;
 
@@ -583,6 +585,8 @@ EXPORT_SYMBOL_GPL(pm_qos_add_request_trace);
 void pm_qos_update_request(struct pm_qos_request *req,
 			   s32 new_value)
 {
+	return;
+
 	if (!req) /*guard against callers passing in null */
 		return;
 
@@ -609,6 +613,8 @@ EXPORT_SYMBOL_GPL(pm_qos_update_request);
 void pm_qos_update_request_timeout(struct pm_qos_request *req, s32 new_value,
 				   unsigned long timeout_us)
 {
+	return;
+
 	if (!req)
 		return;
 	if (WARN(!pm_qos_request_active(req),
@@ -636,6 +642,8 @@ void pm_qos_update_request_timeout(struct pm_qos_request *req, s32 new_value,
  */
 void pm_qos_remove_request(struct pm_qos_request *req)
 {
+	return;
+
 	if (!req) /*guard against callers passing in null */
 		return;
 		/* silent return to keep pcm code cleaner */
@@ -666,6 +674,7 @@ EXPORT_SYMBOL_GPL(pm_qos_remove_request);
 int pm_qos_add_notifier(int pm_qos_class, struct notifier_block *notifier)
 {
 	int retval;
+	return;
 
 	retval = blocking_notifier_chain_register(
 			pm_qos_array[pm_qos_class]->constraints->notifiers,
