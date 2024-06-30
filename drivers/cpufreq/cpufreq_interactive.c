@@ -45,7 +45,7 @@
 #endif
 #include "cpu_load_metric.h"
 
-#define CREATE_TRACE_POINTS
+//#define CREATE_TRACE_POINTS
 #include <trace/events/cpufreq_interactive.h>
 
 struct cpufreq_interactive_cpuinfo {
@@ -75,19 +75,18 @@ static struct mutex gov_lock;
 
 /* Target load.  Lower values result in higher CPU speeds. */
 #define DEFAULT_TARGET_LOAD 90
-static unsigned int default_target_loads[] = {DEFAULT_TARGET_LOAD};
+static unsigned int default_target_loads[] = { 90, 1200000, 100 };
 
-#define DEFAULT_TIMER_RATE (20 * USEC_PER_MSEC)
+#define DEFAULT_TIMER_RATE (10 * USEC_PER_MSEC)
 #define DEFAULT_ABOVE_HISPEED_DELAY DEFAULT_TIMER_RATE
-static unsigned int default_above_hispeed_delay[] = {
-	DEFAULT_ABOVE_HISPEED_DELAY };
+static unsigned int default_above_hispeed_delay[] = { 10000, 1200000, 30000 };
 
 struct cpufreq_interactive_tunables {
 	int usage_count;
 	/* Hi speed to bump to from lo speed when load burst (default max) */
 	unsigned int hispeed_freq;
 	/* Go to hi speed when CPU load at or above this value. */
-#define DEFAULT_GO_HISPEED_LOAD 99
+#define DEFAULT_GO_HISPEED_LOAD 100
 	unsigned long go_hispeed_load;
 	/* Target load. Lower values result in higher CPU speeds. */
 	spinlock_t target_loads_lock;
@@ -97,7 +96,7 @@ struct cpufreq_interactive_tunables {
 	 * The minimum amount of time to spend at a frequency before we can ramp
 	 * down.
 	 */
-#define DEFAULT_MIN_SAMPLE_TIME (80 * USEC_PER_MSEC)
+#define DEFAULT_MIN_SAMPLE_TIME (30 * USEC_PER_MSEC)
 	unsigned long min_sample_time;
 	/*
 	 * The sample rate of the timer used to increase frequency
@@ -120,7 +119,7 @@ struct cpufreq_interactive_tunables {
 	 * Max additional time to wait in idle, beyond timer_rate, at speeds
 	 * above minimum before wakeup to reduce speed, or -1 if unnecessary.
 	 */
-#define DEFAULT_TIMER_SLACK (4 * DEFAULT_TIMER_RATE)
+#define DEFAULT_TIMER_SLACK (8 * DEFAULT_TIMER_RATE)
 	int timer_slack_val;
 	bool io_is_busy;
 
@@ -1086,7 +1085,7 @@ static struct attribute *interactive_attributes_gov_sys[] = {
 
 static struct attribute_group interactive_attr_group_gov_sys = {
 	.attrs = interactive_attributes_gov_sys,
-	.name = "interactive",
+	.name = "Bandido",
 };
 
 /* Per policy governor instance */
@@ -1107,7 +1106,7 @@ static struct attribute *interactive_attributes_gov_pol[] = {
 
 static struct attribute_group interactive_attr_group_gov_pol = {
 	.attrs = interactive_attributes_gov_pol,
-	.name = "interactive",
+	.name = "Bandido",
 };
 
 #ifdef CONFIG_ANDROID
@@ -1117,7 +1116,7 @@ static const char *interactive_sysfs[] = {
 	"hispeed_freq",
 	"go_hispeed_load",
 	"min_sample_time",
-	"timer_rate",
+//	"timer_rate",
 	"timer_slack",
 	"boost",
 	"boostpulse",
@@ -1383,7 +1382,7 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 static
 #endif
 struct cpufreq_governor cpufreq_gov_interactive = {
-	.name = "interactive",
+	.name = "Bandido",
 	.governor = cpufreq_governor_interactive,
 	.max_transition_latency = 10000000,
 	.owner = THIS_MODULE,
