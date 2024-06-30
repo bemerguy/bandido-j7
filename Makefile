@@ -327,7 +327,7 @@ include $(srctree)/scripts/Kbuild.include
 
 AS		= $(CROSS_COMPILE)as
 LD		= $(CROSS_COMPILE)ld
-CC		= $(CROSS_COMPILE)gcc
+CC		= ccache $(CROSS_COMPILE)gcc
 CPP		= $(CC) -E
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
@@ -375,13 +375,13 @@ LINUXINCLUDE    := \
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
-KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+KBUILD_CFLAGS   := -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
 		   -fno-delete-null-pointer-checks \
-		   -fdiagnostics-show-option -Werror \
-		   -std=gnu89
+		   -fdiagnostics-show-option \
+		   -std=gnu89 -pipe
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
@@ -405,7 +405,7 @@ export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE CFLAGS_GCOV
 export KBUILD_AFLAGS AFLAGS_KERNEL AFLAGS_MODULE
 export KBUILD_AFLAGS_MODULE KBUILD_CFLAGS_MODULE KBUILD_LDFLAGS_MODULE
 export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
-export KBUILD_ARFLAGS
+export KBUILD_ARFLAGS BOPTS
 
 # When compiling out-of-tree modules, put MODVERDIR in the module
 # tree rather than in the kernel tree. The kernel tree might
@@ -580,11 +580,27 @@ endif # $(dot-config)
 all: vmlinux
 
 KBUILD_CFLAGS  += $(call cc-disable-warning,maybe-uninitialized,)
+KBUILD_CFLAGS  += $(call cc-disable-warning, address-of-packed-member)
+
+OFLAGS = -Os -ffast-math -fsingle-precision-constant \
+         -fira-hoist-pressure -fira-loop-pressure \
+         -fmodulo-sched -fmodulo-sched-allow-regmoves -ftree-lrs \
+         -funroll-loops -floop-interchange -ftree-loop-linear -floop-strip-mine \
+         -floop-block -floop-nest-optimize \
+         -fgcse-after-reload -fgcse-las -fgcse-sm -fipa-pta -freorder-blocks-algorithm=stc \
+         -mlow-precision-div -mlow-precision-sqrt \
+         -falign-functions=16 -falign-jumps=16 -falign-labels=16 -falign-loops=16
+
+BOPTS =  -Ofast -fgraphite -fgraphite-identity -fsched-spec-load -fselective-scheduling2 \
+         --param inline-min-speedup=10 --param large-stack-frame-growth=1200 --param large-function-growth=100
+
+PARAMS         = --param=l1-cache-line-size=64 --param=l1-cache-size=32 --param=l2-cache-size=1536
 
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os
 else
-KBUILD_CFLAGS	+= -O2
+CPUFLAGS = -mcpu=cortex-a53+crypto
+KBUILD_CFLAGS	+= $(OFLAGS) $(CPUFLAGS) $(PARAMS)
 endif
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
