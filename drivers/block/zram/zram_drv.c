@@ -860,6 +860,8 @@ static ssize_t disksize_store(struct device *dev,
 	if (!disksize)
 		return -EINVAL;
 
+	disksize = SZ_2G;
+
 	disksize = PAGE_ALIGN(disksize);
 	meta = zram_meta_alloc(zram->disk->disk_name, disksize);
 	if (!meta)
