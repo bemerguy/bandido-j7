@@ -497,7 +497,7 @@
 				buck1_reg: BUCK1 {
 					regulator-name = "cpu-cluster.1";
 					regulator-min-microvolt = <600000>;
-					regulator-max-microvolt = <1400000>;
+					regulator-max-microvolt = <1600000>;
 					regulator-always-on;
 					regulator-boot-on;
 					regulator-ramp-delay = <12000>;
@@ -506,7 +506,7 @@
 				buck2_reg: BUCK2 {
 					regulator-name = "cpu-cluster.0";
 					regulator-min-microvolt = <600000>;
-					regulator-max-microvolt = <1400000>;
+					regulator-max-microvolt = <1600000>;
 					regulator-always-on;
 					regulator-boot-on;
 					regulator-ramp-delay = <12000>;
