@@ -49,7 +49,7 @@
 #endif
 
 #define DIV_MASK_ALL		0xffffffff
-#define LIMIT_COLD_VOLTAGE	1350000
+#define LIMIT_COLD_VOLTAGE	1500000
 #define MIN_COLD_VOLTAGE	950000
 #define COLD_VOLT_OFFSET	37500
 
@@ -95,11 +95,11 @@ static struct {
 	 * clock divider for SCLK_CPU_PLL, SCLK_HPM_CPU
 	 * PLL M, P, S
 	 */
-        APLL_FREQ(2200000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 262, 4, 0),
-        APLL_FREQ(2100000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 262, 4, 0),
-        APLL_FREQ(1900000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 262, 4, 0),
-        APLL_FREQ(1800000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 262, 4, 0),
-        APLL_FREQ(1700000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 262, 4, 0),
+//        APLL_FREQ(2200000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 246, 4, 0),
+//        APLL_FREQ(2100000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 246, 4, 0),
+        APLL_FREQ(1900000, 0, 0, 7, 7, 2, 7, 3, 10, 7, 200, 4, 0),
+        APLL_FREQ(1800000, 0, 0, 7, 7, 2, 7, 3, 10, 7, 216, 4, 0),
+        APLL_FREQ(1700000, 0, 0, 7, 7, 2, 7, 3, 8, 7, 230, 4, 0),
 	APLL_FREQ(1600000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 246, 4, 0),
 	APLL_FREQ(1500000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 230, 4, 0),
 	APLL_FREQ(1400000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 216, 4, 0),
@@ -117,8 +117,8 @@ static struct {
 };
 
 static unsigned int exynos_bus_table[] = {
-        825000, /* 2.2GHz */
-        825000, /* 2.1GHz */
+//        825000, /* 2.2GHz */
+//        825000, /* 2.1GHz */
         825000, /* 1.9GHz */
         825000, /* 1.8GHz */
         825000, /* 1.7GHz */
@@ -284,6 +284,7 @@ static void exynos_apll_set_clkdiv(int cluster, int div_index)
 
 	/* Change Divider - CPU0 */
 	div = apll_freq[div_index].clk_div_cpu0;
+	pr_info("Bandido div for cluster 0, index %d: %X\n", div_index, div);
 
 	__raw_writel(div, cluster ? EXYNOS7580_DIV_APL_0 : EXYNOS7580_DIV_CPU_0);
 
@@ -291,6 +292,7 @@ static void exynos_apll_set_clkdiv(int cluster, int div_index)
 
 	/* Change Divider - CPU1 */
 	div = apll_freq[div_index].clk_div_cpu1;
+        pr_info("Bandido div for cluster 1, index %d: %X\n", div_index, div);
 
 	__raw_writel(div, cluster ? EXYNOS7580_DIV_APL_1 : EXYNOS7580_DIV_CPU_1);
 
@@ -923,10 +925,11 @@ static int exynos_cpufreq_init(struct cpufreq_policy *policy)
 	policy->cpuinfo.transition_latency = exynos_get_transition_latency(cpu_dev);
 	voltage_tolerance = exynos_get_voltage_tolerance(cpu_dev);
 	policy->cur = exynos_cpufreq_get(policy->cpu);
+
 	/* Later this code will be removed. This is for first lot */
 	policy->cpuinfo.min_freq = 400000;
 	freq_table[cur_cluster][13].frequency = CPUFREQ_ENTRY_INVALID;
-
+#if 0
 	if (samsung_rev() == EXYNOS7580_REV_0) {
 		if (!support_full_frequency())
 			policy->cpuinfo.max_freq = 800000;
@@ -939,7 +942,7 @@ static int exynos_cpufreq_init(struct cpufreq_policy *policy)
 
 	if (soc_is_exynos7580_v1())
 		policy->cpuinfo.max_freq = 1500000;
-
+#endif
 	cpumask_copy(policy->cpus, topology_core_cpumask(policy->cpu));
 
 	if (policy->cpu == 0) {
