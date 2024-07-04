@@ -97,8 +97,8 @@ static struct {
 	 */
 //        APLL_FREQ(2200000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 246, 4, 0),
 //        APLL_FREQ(2100000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 246, 4, 0),
-        APLL_FREQ(1900000, 0, 0, 7, 7, 2, 7, 3, 10, 7, 200, 4, 0),
-        APLL_FREQ(1800000, 0, 0, 7, 7, 2, 7, 3, 10, 7, 216, 4, 0),
+///        APLL_FREQ(1900000, 0, 0, 7, 7, 2, 7, 3, 10, 7, 200, 4, 0),
+        APLL_FREQ(1800000, 0, 0, 7, 7, 2, 7, 3, 8, 7, 230, 4, 0),
         APLL_FREQ(1700000, 0, 0, 7, 7, 2, 7, 3, 8, 7, 230, 4, 0),
 	APLL_FREQ(1600000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 246, 4, 0),
 	APLL_FREQ(1500000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 230, 4, 0),
@@ -119,7 +119,7 @@ static struct {
 static unsigned int exynos_bus_table[] = {
 //        825000, /* 2.2GHz */
 //        825000, /* 2.1GHz */
-        825000, /* 1.9GHz */
+//        825000, /* 1.9GHz */
         825000, /* 1.8GHz */
         825000, /* 1.7GHz */
 	825000, /* 1.6GHz */
@@ -284,7 +284,6 @@ static void exynos_apll_set_clkdiv(int cluster, int div_index)
 
 	/* Change Divider - CPU0 */
 	div = apll_freq[div_index].clk_div_cpu0;
-	pr_info("Bandido div for cluster 0, index %d: %X\n", div_index, div);
 
 	__raw_writel(div, cluster ? EXYNOS7580_DIV_APL_0 : EXYNOS7580_DIV_CPU_0);
 
@@ -292,7 +291,6 @@ static void exynos_apll_set_clkdiv(int cluster, int div_index)
 
 	/* Change Divider - CPU1 */
 	div = apll_freq[div_index].clk_div_cpu1;
-        pr_info("Bandido div for cluster 1, index %d: %X\n", div_index, div);
 
 	__raw_writel(div, cluster ? EXYNOS7580_DIV_APL_1 : EXYNOS7580_DIV_CPU_1);
 
