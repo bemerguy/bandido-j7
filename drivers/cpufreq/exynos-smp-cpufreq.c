@@ -95,9 +95,9 @@ static struct {
 	 * clock divider for SCLK_CPU_PLL, SCLK_HPM_CPU
 	 * PLL M, P, S
 	 */
-//        APLL_FREQ(2200000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 246, 4, 0),
-//        APLL_FREQ(2100000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 246, 4, 0),
-///        APLL_FREQ(1900000, 0, 0, 7, 7, 2, 7, 3, 10, 7, 200, 4, 0),
+        APLL_FREQ(2200000, 0, 0, 7, 7, 2, 7, 3, 8, 7, 200, 4, 0),
+        APLL_FREQ(2100000, 0, 0, 7, 7, 2, 7, 3, 8, 7, 200, 4, 0),
+        APLL_FREQ(1900000, 0, 0, 7, 7, 2, 7, 3, 8, 7, 200, 4, 0),
         APLL_FREQ(1800000, 0, 0, 7, 7, 2, 7, 3, 8, 7, 230, 4, 0),
         APLL_FREQ(1700000, 0, 0, 7, 7, 2, 7, 3, 8, 7, 230, 4, 0),
 	APLL_FREQ(1600000, 0, 0, 7, 7, 2, 7, 3, 7, 7, 246, 4, 0),
@@ -117,10 +117,10 @@ static struct {
 };
 
 static unsigned int exynos_bus_table[] = {
-//        825000, /* 2.2GHz */
-//        825000, /* 2.1GHz */
-//        825000, /* 1.9GHz */
-        825000, /* 1.8GHz */
+        925000, /* 2.2GHz */
+        925000, /* 2.1GHz */
+        925000, /* 1.9GHz */
+        925000, /* 1.8GHz */
         825000, /* 1.7GHz */
 	825000, /* 1.6GHz */
 	825000, /* 1.5GHz */
@@ -923,11 +923,11 @@ static int exynos_cpufreq_init(struct cpufreq_policy *policy)
 	policy->cpuinfo.transition_latency = exynos_get_transition_latency(cpu_dev);
 	voltage_tolerance = exynos_get_voltage_tolerance(cpu_dev);
 	policy->cur = exynos_cpufreq_get(policy->cpu);
-
+#if 0
 	/* Later this code will be removed. This is for first lot */
 	policy->cpuinfo.min_freq = 400000;
 	freq_table[cur_cluster][13].frequency = CPUFREQ_ENTRY_INVALID;
-#if 0
+
 	if (samsung_rev() == EXYNOS7580_REV_0) {
 		if (!support_full_frequency())
 			policy->cpuinfo.max_freq = 800000;
