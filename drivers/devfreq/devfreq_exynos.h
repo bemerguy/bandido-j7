@@ -547,7 +547,7 @@ struct devfreq_thermal_work {
 };
 
 #define COLD_VOLT_OFFSET	(25000)
-#define LIMIT_COLD_VOLTAGE	(1200000)
+#define LIMIT_COLD_VOLTAGE	(1300000)
 
 unsigned int get_limit_voltage(unsigned int voltage, unsigned int volt_offset);
 int devfreq_get_opp_idx(struct devfreq_opp_table *table,
