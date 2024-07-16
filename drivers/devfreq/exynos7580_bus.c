@@ -1310,7 +1310,7 @@ struct devfreq_clk_list devfreq_mif_clk[MIF_CLK_COUNT] = {
 };
 
 struct devfreq_opp_table devfreq_mif_opp_list[] = {
-	{MIF_LV0, 925000, 1200000},
+	{MIF_LV0, 925000, 1300000},
 	{MIF_LV1, 825000, 1200000},
 	{MIF_LV2, 728000, 1200000},
 	{MIF_LV3, 667000, 1200000},
